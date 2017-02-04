@@ -2,6 +2,8 @@
 
 namespace PhpExtended\Mega;
 
+use PhpExtended\RootCacert\CacertBundle;
+
 /**
  * Mega class file.
  *
@@ -52,6 +54,13 @@ class Mega
 	private $_seqno = null;
 	
 	/**
+	 * The user session id.
+	 *
+	 * @var string
+	 */
+	private $_user_session_id = null;
+	
+	/**
 	 * Builds a new Mega client API.
 	 */
 	public function __construct($server = null)
@@ -79,6 +88,35 @@ class Mega
 		}
 	}
 	
+	public function getFileInfo($url)
+	{
+		$fragment = $this->parseMegaUrl($url);
+		
+		return $this->getFileInfoFromFragment($fragment);
+	}
+	
+	protected function getFileInfoFromFragment(MegaFragment $fragment)
+	{
+		$args = array(
+			'a' => 'g',
+			'p' => $fragment->getHandle(),
+			'ssl' => '1',
+		);
+		
+		$payload = json_encode($args);
+		$url = 'https://'.$this->_server.'/cs?id='.($this->_seqno++);
+		if(!empty($this->_user_session_id))
+			$url .= '&sid='.$this->_user_session_id;
+		
+		$json_response = $this->request($url, $payload);
+		
+		$response = json_decode($json_response);
+		if($response === false)
+			throw new MegaException('Impossible to decode the json response from the server.', MegaException::EINTERNAL);
+		
+		var_dump($response);die();
+	}
+	
 	/**
 	 * Gets the fragments parts from given url
 	 *
@@ -97,6 +135,45 @@ class Mega
 				array('{url}' => $url)), MegaException::EARGS);
 		
 		return new MegaFragment($fragment);
+	}
+	
+	/**
+	 * Executes a given request to megaupload via cURL.
+	 *
+	 * @param string $url
+	 * @param string $payload
+	 * @return string the contents
+	 * @throws MegaException
+	 */
+	protected function request($url, $payload)
+	{
+		$ch = curl_init();
+		
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+		
+		$cacert_path = CacertBundle::getFilePath();
+		
+		curl_setopt($ch, CURLOPT_CAINFO, $cacert_path);
+		curl_setopt($ch, CURLOPT_CAPATH, $cacert_path);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type' => 'application/json'));
+		
+		$contents = curl_exec($ch);
+		if($contents === false)
+		{
+			$code = curl_errno($ch);
+			$message = curl_error($ch);
+			curl_close($ch);
+			throw new MegaException($message, $code);
+		}
+		
+		curl_close($ch);
+		
+		return $contents;
 	}
 	
 }

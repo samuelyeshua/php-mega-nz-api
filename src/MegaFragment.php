@@ -50,7 +50,7 @@ class MegaFragment
 			throw new MegaException('The given fragment is not a string.', MegaException::EARGS);
 		
 		$matches = array();
-		if(!preg_match('#(F?)\\!([a-zA-Z0-9]+)(?:\\!([a-zA-Z0-9_,\\-]+))?#', $url_fragment, $matches))
+		if(preg_match('#(F?)!([a-zA-Z0-9]+)(!([a-zA-Z0-9_,\\-]+))?#', $url_fragment, $matches))
 		{
 			$this->_type = ($matches[1] === 'F') ? self::TYPE_FOLDER : self::TYPE_FILE;
 			$this->_handle = ($matches[2]);

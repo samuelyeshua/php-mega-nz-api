@@ -23,7 +23,8 @@
 		"php" : ">=5.3.0",
 		"ext-mcrypt" : "*",
 		"ext-openssl" : "*",
-		"ext-curl" : "*"
+		"ext-curl" : "*",
+		"php-extended/php-root-cacert-bundle" : ">=1.0.0"
 	},
 	"keywords" : [
 		"php",
