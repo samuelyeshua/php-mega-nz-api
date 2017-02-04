@@ -1,0 +1,37 @@
+{
+	"name" : "php-extended/php-mega-nz-api",
+	"description" : "A php API wrapper to connect to mega.nz API",
+	"type" : "library",
+	"homepage" : "https://github.com/php-extended/php-mega-nz-api",
+	"license" : "MIT",
+	"support" : {
+		"issues" : "https://github.com/php-extended/php-mega-nz-api/issues",
+		"source" : "https://github.com/php-extended/php-mega-nz-api"
+	},
+	"authors" : [{
+			"name" : "Anastaszor",
+			"homepage" : "https://github.com/Anastaszor",
+			"role" : "Developer"
+		}
+	],
+	"autoload" : {
+		"psr-4" : {
+			"PhpExtended\\Mega\\" : "src"
+		}
+	},
+	"require" : {
+		"php" : ">=5.3.0",
+		"ext-mcrypt" : "*",
+		"ext-openssl" : "*",
+		"ext-curl" : "*"
+	},
+	"keywords" : [
+		"php",
+		"mega.nz",
+		"mega.co.nz",
+		"API",
+		"wrapper",
+		"mega",
+		"client"
+	]
+}
