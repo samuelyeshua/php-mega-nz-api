@@ -3,6 +3,8 @@
 namespace PhpExtended\Mega;
 
 /**
+ * IMegaString interface file.
+ *
  * Generic interfaces to parse strings given by Mega API.
  *
  * @author Anastaszor
