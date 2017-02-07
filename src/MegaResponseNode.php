@@ -12,12 +12,6 @@ namespace PhpExtended\Mega;
 class MegaResponseNode
 {
 	
-	const TYPE_FILE   = 0;
-	const TYPE_FOLDER = 1;
-	const TYPE_ROOT   = 3;
-	const TYPE_INBOX  = 4;
-	const TYPE_TRASH  = 5;
-	
 	/**
 	 * The id of the node.
 	 *
@@ -97,11 +91,8 @@ class MegaResponseNode
 				case 't';
 					switch($value)
 					{
-						case self::TYPE_FILE:
-						case self::TYPE_FOLDER:
-						case self::TYPE_INBOX:
-						case self::TYPE_ROOT:
-						case self::TYPE_TRASH:
+						case MegaNode::TYPE_FILE:
+						case MegaNode::TYPE_FOLDER:
 							$this->_t = (int) $value;
 							break;
 						default:

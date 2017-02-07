@@ -69,11 +69,11 @@ class MegaResponseNodelist
 	}
 	
 	/**
-	 * Gets the folder which is the root amongst the folders given in the list.
+	 * Gets the node which is the root amongst the nodes given in the list.
 	 *
 	 * @return MegaResponseNode
 	 */
-	public function getRootFolder()
+	public function getRootNode()
 	{
 		// normally, the root folder is the first of the list.
 		// double check in case all the other folders are not rooted to this one
@@ -91,6 +91,25 @@ class MegaResponseNodelist
 		}
 		
 		return $supposed_root;
+	}
+	
+	/**
+	 * Gets all the other non-root nodes.
+	 *
+	 * @return MegaResponseNode[]
+	 */
+	public function getNonrootNodes()
+	{
+		$root = $this->getRootNode();
+		
+		$nodes = array();
+		foreach($this->_f as $node)
+		{
+			if($node->getNodeId()->equals($root->getNodeId()))
+				continue;
+			$nodes[] = $node;
+		}
+		return $nodes;
 	}
 	
 }

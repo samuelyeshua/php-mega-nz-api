@@ -20,7 +20,7 @@ interface IMegaKeyAes128
 	public function toArray32();
 	
 	/**
-	 *  Gets a version of that key in pure form.
+	 * Gets a version of that key in pure form.
 	 *
 	 * @return MegaKeyAes128String
 	 */
