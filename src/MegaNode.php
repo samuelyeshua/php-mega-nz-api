@@ -129,4 +129,76 @@ class MegaNode
 		return $this->_parent_node_id;
 	}
 	
+	/**
+	 *
+	 * @return MegaUserId
+	 */
+	public function getOwnerId()
+	{
+		return $this->_owner_id;
+	}
+	
+	/**
+	 *
+	 * @return MegaAttribute
+	 */
+	public function getAttributes()
+	{
+		return $this->_attributes;
+	}
+	
+	/**
+	 *
+	 * @return integer
+	 */
+	public function getNodeType()
+	{
+		return $this->_node_type;
+	}
+	
+	/**
+	 *
+	 * @return integer
+	 */
+	public function getNodeSize()
+	{
+		return $this->_node_size;
+	}
+	
+	/**
+	 *
+	 * @return \DateTime
+	 */
+	public function getLastModifiedDate()
+	{
+		return $this->_last_modified_date;
+	}
+	
+	/**
+	 *
+	 * @return IMegaKeyAes128
+	 */
+	public function getNodeKey()
+	{
+		return $this->_node_key;
+	}
+	
+	/**
+	 *
+	 * @return IMegaKeyAes128
+	 */
+	public function getInitializationVector()
+	{
+		return $this->_init_vec;
+	}
+	
+	/**
+	 *
+	 * @return IMegaKeyAes64
+	 */
+	public function getMetaMac()
+	{
+		return $this->_meta_mac;
+	}
+	
 }

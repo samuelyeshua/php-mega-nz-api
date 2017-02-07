@@ -212,12 +212,18 @@ class Mega
 				return $retrieved_node;
 		}
 		
+		return $this->getFileInfoWithChildren($node_id);
+	}
+	
+	protected function getFileInfoWithChildren(MegaNodeId $node_id)
+	{
+		
 		// not found in cache : get the folders data
 		
 		$args = array(
 			'a' => 'f',	// folder?
 			'c' => 1,	// ???
-			'r' => 0,	// recursive
+			'r' => 1,	// recursive
 			'ca' => 0,
 		);
 		
@@ -237,7 +243,9 @@ class Mega
 		$url .= '&n='.$this->_container_id->getValue();
 		$url .= '&lang=en&domain=meganz';
 		
+		var_dump($url, $payload);
 		$json_response = $this->request($url, $payload);
+		var_dump($json_response);
 		if(is_numeric($json_response))
 			throw new MegaException(null, $json_response);
 		
@@ -278,21 +286,37 @@ class Mega
 		return $this->_node_hierarchy->retrieve($node_id);
 	}
 	
-	
-	
-	public function downloadFile($url, MegaNode $node)
+	/**
+	 * Gets the children of given node.
+	 *
+	 * @param MegaNode $node
+	 * @return MegaNode[]
+	 */
+	public function getChildren(MegaNode $node)
 	{
-		$fragment = $this->parseMegaUrl($url);
-		
-		$this->downloadFileFromFragment($fragment, $node);
+		$children = $this->_node_hierarchy->getChildren($node->getNodeId());
+		if(count($children) === 0)
+		{
+			$info = $this->getFileInfoWithChildren($node->getNodeId());
+			var_dump($info);die();
+			$children = $this->_node_hierarchy->getChildren($node->getNodeId());
+		}
+		return $children;
 	}
 	
-	protected function downloadFileFromFragment(MegaFragment $fragment, MegaNode $node)
+	/**
+	 * Gets the raw data for the file represented by given node.
+	 *
+	 * @param MegaNode $node
+	 * @return string binary raw data for the decoded file
+	 * @throws MegaException
+	 */
+	public function downloadFile(MegaNode $node)
 	{
 		$args = array(
 			'a' => 'g',
 			'g' => 1,
-			'n' => $node->h(),
+			'n' => $node->getNodeId()->getValue(),
 			'ssl' => 2,
 		);
 		
@@ -300,7 +324,7 @@ class Mega
 		$url = 'https://'.$this->_server.'/cs?id='.($this->_seqno++);
 		if(!empty($this->_user_session_id))
 			$url .= '&sid='.$this->_user_session_id;
-		$url .= '&n='.$fragment->getHandle();
+		$url .= '&n='.$this->_container_id->__toString();
 		$url .= '&lang=en&domain=meganz';
 		
 		$json_response = $this->request($url, $payload);
@@ -320,31 +344,11 @@ class Mega
 		// TODO change to be able to stream data instead
 		$encoded_data = $this->request($encrypted_response->g(), null);
 		
-		var_dump($encoded_data);
+		$file_decoder = new MegaResponseFileDecoder($node);
 		
-		$clear_data = $this->decryptAesCtr($encoded_data, $this->a32ToStr($node->getKey()), $this->a32ToStr($node->getInitializationVector()));
+		$clear_data = $file_decoder->decode($encoded_data);
 		
 		return $clear_data;
-	}
-	
-	/**
-	 * Gets the fragments parts from given url
-	 *
-	 * @param string $url
-	 * @return MegaFragment
-	 * @throws MegaException
-	 */
-	protected function parseMegaUrl($url)
-	{
-		if(!is_string($url))
-			throw new MegaException('The given url is not a string.', MegaException::EARGS);
-		
-		$fragment = parse_url($url, PHP_URL_FRAGMENT);
-		if($fragment === false)
-			throw new MegaException(strtr('Impossible to parse fragment from url "{url}".',
-				array('{url}' => $url)), MegaException::EARGS);
-		
-		return new MegaFragment($fragment);
 	}
 	
 	/**

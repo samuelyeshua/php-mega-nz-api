@@ -79,16 +79,16 @@ class MegaResponseNodelist
 		// double check in case all the other folders are not rooted to this one
 		$supposed_root = $this->_f[0];
 		
-		foreach($this->_f as $node)
-		{
-			if($node->getNodeId()->equals($supposed_root->getNodeId()))
-				continue;
-			if($node->getParentNodeId()->equals($supposed_root->getNodeId()))
-				continue;
+// 		foreach($this->_f as $node)
+// 		{
+// 			if($node->getNodeId()->equals($supposed_root->getNodeId()))
+// 				continue;
+// 			if($node->getParentNodeId()->equals($supposed_root->getNodeId()))
+// 				continue;
 			
-			throw new MegaException('The supposed root element "{pkey}" is not the parent of node "{ckey}".',
-				array('{pkey}' => $supposed_root->getNodeId(), '{ckey}' => $node->getNodeId()));
-		}
+// 			throw new MegaException(strtr('The supposed root element "{pkey}" is not the parent of node "{ckey}".',
+// 				array('{pkey}' => $supposed_root->getNodeId(), '{ckey}' => $node->getNodeId())));
+// 		}
 		
 		return $supposed_root;
 	}

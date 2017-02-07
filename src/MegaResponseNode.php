@@ -69,6 +69,13 @@ class MegaResponseNode
 	private $_ts = null;
 	
 	/**
+	 * unknown data
+	 *
+	 * @var unknown
+	 */
+	private $_fa = null;
+	
+	/**
 	 * Build a new MegaResponseNode with the given json data.
 	 *
 	 * @param array $json_data
@@ -111,6 +118,9 @@ class MegaResponseNode
 					break;
 				case 'ts':
 					$this->_ts = new \DateTime('@'.$value);
+					break;
+				case 'fa':
+					$this->_fa = $value;
 					break;
 				default:
 					throw new MegaException(strtr('Unknown attribute property "{key}" with value "{val}".',
