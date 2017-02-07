@@ -185,9 +185,6 @@ class Mega
 	
 	protected function getFileInfoWithChildren(MegaNodeId $node_id)
 	{
-		
-		// not found in cache : get the folders data
-		
 		$args = array(
 			'a' => 'f',	// folder?
 			'c' => 1,	// ???
@@ -198,11 +195,6 @@ class Mega
 		// dont need the node id the first time we want the root folder
 		if(!$this->_container_id->equals($node_id))
 			$args['n'] = $node_id->getValue();
-// 		$args = array(
-// 			'a' => 'g',
-// 			'p' => $fragment->getHandle(),
-// 			'ssl' => '1',
-// 		);
 		
 		$payload = json_encode(array($args));
 		$url = 'https://'.$this->_server.'/cs?id='.($this->_seqno++);
@@ -211,9 +203,7 @@ class Mega
 		$url .= '&n='.$this->_container_id->getValue();
 		$url .= '&lang=en&domain=meganz';
 		
-		var_dump($url, $payload);
 		$json_response = $this->request($url, $payload);
-		var_dump($json_response);
 		if(is_numeric($json_response))
 			throw new MegaException(null, $json_response);
 		
@@ -265,8 +255,7 @@ class Mega
 		$children = $this->_node_hierarchy->getChildren($node->getNodeId());
 		if(count($children) === 0)
 		{
-			$info = $this->getFileInfoWithChildren($node->getNodeId());
-			var_dump($info);die();
+			$this->getFileInfoWithChildren($node->getNodeId());
 			$children = $this->_node_hierarchy->getChildren($node->getNodeId());
 		}
 		return $children;
