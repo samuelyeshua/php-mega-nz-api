@@ -9,6 +9,7 @@ namespace PhpExtended\Mega;
  * which targets a specific resource in Mega.
  *
  * @author Anastaszor
+ * @deprecated
  */
 class MegaFragment
 {
@@ -54,7 +55,7 @@ class MegaFragment
 		{
 			$this->_type = ($matches[1] === 'F') ? self::TYPE_FOLDER : self::TYPE_FILE;
 			$this->_handle = ($matches[2]);
-			if(isset($matches[3])) $this->_key = $matches[3];
+			if(isset($matches[4])) $this->_key = $matches[4];
 		}
 		else throw new MegaException(strtr('The given fragment could not be parsed ("{frg}").',
 			array('{frg}' => $url_fragment)), MegaException::EARGS);
