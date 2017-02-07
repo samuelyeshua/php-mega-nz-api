@@ -270,6 +270,9 @@ class Mega
 	 */
 	public function downloadFile(MegaNode $node)
 	{
+		if($node->getNodeType() !== MegaNode::TYPE_FILE)
+			throw new MegaException(strtr('Only files are downloadable.', MegaException::EINTERNAL));
+		
 		$args = array(
 			'a' => 'g',
 			'g' => 1,
