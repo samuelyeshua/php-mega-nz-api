@@ -4,7 +4,7 @@ A php API wrapper to connect to mega.nz API, in full object oriented mode.
 This library takes care of not disabling https certificate checking when
 calling for mega servers.
 
-This library is in construction, only few of its methods are available, but
+This API is in construction, only few of its methods are available, but
 contributions are welcome!
 
 This library is inspired by the [smartinm/mega-php-client](https://github.com/smartinm/mega-php-client) library and the 
@@ -35,7 +35,7 @@ This library offers an API to see files, and download them, as follows :
 
 The constructor needs the full url to access mega. This means that the url
 fragment should contains the node id, and the key to decode the node. 
-`Mega::__construct($full_url):Mega`
+`Mega::__construct(string $full_url):Mega`
 
 Once a new `Mega` object is created, you may search for its root folder with
 the method : `Mega::getRootNodeInfo():MegaNode;`

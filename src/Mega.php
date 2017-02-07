@@ -308,6 +308,9 @@ class Mega
 		if(is_int($response[0]))
 			throw new MegaException(null, $response[0]);
 		
+		if(isset($response['e']))
+			throw new MegaException(null, $response['e']);
+		
 		$encrypted_response = new MegaEncryptedFileLocation($response[0]);
 		
 		// TODO change to be able to stream data instead

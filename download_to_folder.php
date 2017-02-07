@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Example file on how to download recursively a folder from mega.
+ * Example script on how to download recursively a folder from mega.
  * This script to launch from command line needs 2 arguments :
  * - A valid url to Mega, with full fragment (with the folder id and the key)
  * - A valid path on your system where to put all the downloaded data
