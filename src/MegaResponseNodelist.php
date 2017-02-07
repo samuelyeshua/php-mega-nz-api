@@ -19,8 +19,18 @@ class MegaResponseNodelist
 	 */
 	private $_f = array();
 	
+	/**
+	 * unknown data
+	 *
+	 * @var unknown
+	 */
 	private $_sn = null;
 	
+	/**
+	 * unknown data
+	 *
+	 * @var unknown
+	 */
 	private $_noc = null;
 	
 	/**
@@ -79,6 +89,8 @@ class MegaResponseNodelist
 		// double check in case all the other folders are not rooted to this one
 		$supposed_root = $this->_f[0];
 		
+		// TODO disabled as we use the recursive mode in Mega class, and all
+		// nodes in the hierarchy are given flat, we need more complex checks
 // 		foreach($this->_f as $node)
 // 		{
 // 			if($node->getNodeId()->equals($supposed_root->getNodeId()))

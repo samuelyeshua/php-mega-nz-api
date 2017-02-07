@@ -2,6 +2,14 @@
 
 namespace PhpExtended\Mega;
 
+/**
+ * MegaNode class file.
+ *
+ * This class represents a node in mega's file and folders hierarchy. A node
+ * represents metadata for a folder, a file, or other specific elements.
+ *
+ * @author Anastaszor
+ */
 class MegaNode
 {
 	
@@ -14,60 +22,70 @@ class MegaNode
 	const TYPE_NETWORK = 9;
 	
 	/**
+	 * The id of this node.
 	 *
 	 * @var MegaNodeId
 	 */
 	private $_node_id = null;
 	
 	/**
+	 * The id of parent node.
 	 *
 	 * @var MegaNodeId
 	 */
 	private $_parent_node_id = null;
 	
 	/**
+	 * The id of owner user.
 	 *
 	 * @var MegaUserId
 	 */
 	private $_owner_id = null;
 	
 	/**
+	 * The attributes of this node.
 	 *
 	 * @var MegaAttribute
 	 */
 	private $_attributes = null;
 	
 	/**
+	 * The type of this node. One of the MegaNode::TYPE_* constants.
 	 *
 	 * @var integer
 	 */
 	private $_node_type = null;
 	
 	/**
+	 * The size of this node, in octets.
 	 *
 	 * @var integer
 	 */
 	private $_node_size = null;
 	
 	/**
+	 * The date when this node was last modified.
 	 *
 	 * @var \DateTime
 	 */
 	private $_last_modified_date = null;
 	
 	/**
+	 * The private key to decrypt this node's content.
 	 *
 	 * @var IMegaKeyAes128
 	 */
 	private $_node_key = null;
 	
 	/**
+	 * The initialization vector, to decrypt this node's content.
 	 *
 	 * @var IMegaKeyAes128
 	 */
 	private $_init_vec = null;
 	
 	/**
+	 * The meta mac, to check the integrity of this node's content.
 	 *
 	 * @var IMegaKeyAes64
 	 */
@@ -112,6 +130,7 @@ class MegaNode
 	}
 	
 	/**
+	 * Gets this node's id.
 	 *
 	 * @return MegaNodeId
 	 */
@@ -121,6 +140,7 @@ class MegaNode
 	}
 	
 	/**
+	 * Gets this node parent's id.
 	 *
 	 * @return MegaNodeId
 	 */
@@ -130,6 +150,7 @@ class MegaNode
 	}
 	
 	/**
+	 * Gets this node owner's user id.
 	 *
 	 * @return MegaUserId
 	 */
@@ -139,6 +160,7 @@ class MegaNode
 	}
 	
 	/**
+	 * Gets the attributes for this node.
 	 *
 	 * @return MegaAttribute
 	 */
@@ -148,6 +170,7 @@ class MegaNode
 	}
 	
 	/**
+	 * Gets this node's type. Only one of MegaNode::TYPE_* constants.
 	 *
 	 * @return integer
 	 */
@@ -157,6 +180,7 @@ class MegaNode
 	}
 	
 	/**
+	 * Gets the node size. Only set when nodes represents files.
 	 *
 	 * @return integer
 	 */
@@ -166,6 +190,7 @@ class MegaNode
 	}
 	
 	/**
+	 * Gets the last modified date of this node.
 	 *
 	 * @return \DateTime
 	 */
@@ -175,6 +200,7 @@ class MegaNode
 	}
 	
 	/**
+	 * Gets the encryption key for this node.
 	 *
 	 * @return IMegaKeyAes128
 	 */
@@ -184,6 +210,7 @@ class MegaNode
 	}
 	
 	/**
+	 * Gets the initialization vector for this node.
 	 *
 	 * @return IMegaKeyAes128
 	 */
@@ -193,6 +220,7 @@ class MegaNode
 	}
 	
 	/**
+	 * Gets the meta mac for this node.
 	 *
 	 * @return IMegaKeyAes64
 	 */

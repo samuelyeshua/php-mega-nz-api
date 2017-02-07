@@ -2,6 +2,14 @@
 
 namespace PhpExtended\Mega;
 
+/**
+ * MegaEncryptedFileLocation class file.
+ *
+ * This class is the response of the api in the request of a temporary link
+ * to download a file.
+ *
+ * @author Anastaszor
+ */
 class MegaEncryptedFileLocation
 {
 	

@@ -2,13 +2,26 @@
 
 namespace PhpExtended\Mega;
 
+/**
+ * MegaResponseNodeDecoder class file.
+ *
+ * This class is to decrypt the metadata of other nodes from the key of parent
+ * node.
+ *
+ * @author Anastaszor
+ */
 class MegaResponseNodeDecoder
 {
 	
+	/**
+	 * The key to decode the other nodes.
+	 *
+	 * @var IMegaKeyAes128
+	 */
 	private $_key = null;
 	
 	/**
-	 *
+	 * Builds a new MegaResponseNodeDecoder object with the given master key.
 	 *
 	 * @param IMegaKeyAes128 $decoding_key
 	 */
@@ -18,6 +31,7 @@ class MegaResponseNodeDecoder
 	}
 	
 	/**
+	 * Decodes the response node and gives a clear node.
 	 *
 	 * @param MegaResponseNode $node
 	 * @return MegaNode
@@ -98,12 +112,14 @@ class MegaResponseNodeDecoder
 	}
 	
 	/**
+	 * Decrypts a 128 bits AES key encrypted with another 128 bits AES key,
+	 * i.e. decrypts the children key for a folder with the parent's key.
 	 *
 	 * @param IMegaKeyAes128 $encoded_key_to_decode
 	 * @param IMegaKeyAes128 $encoding_key
 	 * @return IMegaKeyAes128 the encoded_key in decoded form.
 	 */
-	public function decryptKey(IMegaKeyAes128 $encoded_key_to_decode, IMegaKeyAes128 $encoding_key)
+	protected function decryptKey(IMegaKeyAes128 $encoded_key_to_decode, IMegaKeyAes128 $encoding_key)
 	{
 		$keysize = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
 		$iv = str_repeat("\0", $keysize);
@@ -116,12 +132,14 @@ class MegaResponseNodeDecoder
 	}
 	
 	/**
+	 * Decrypts a 256 bits AES key encrypted with a 128 bits AES key, i.e.
+	 * decrypts the children key for a file with the parent's folder key.
 	 *
 	 * @param IMegaKeyAes256 $encoded_key_to_decode
 	 * @param IMegaKeyAes128 $encoding_key
 	 * @return IMegaKeyAes256 the encoded_key in decoded form.
 	 */
-	public function decryptKey256(IMegaKeyAes256 $encoded_key_to_decode, IMegaKeyAes128 $encoding_key)
+	protected function decryptKey256(IMegaKeyAes256 $encoded_key_to_decode, IMegaKeyAes128 $encoding_key)
 	{
 		$keysize = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
 		$iv = str_repeat("\0", $keysize);
@@ -140,14 +158,15 @@ class MegaResponseNodeDecoder
 	}
 	
 	/**
-	 *
+	 * Decrypts a string with the key, i.e. decrypts the attributes for a node
+	 * with it's own key.
 	 *
 	 * @param IMegaString $string
 	 * @param IMegaKeyAes128 $key
 	 * @return MegaAttribute
 	 * @throws MegaException
 	 */
-	public function decryptAttributes(IMegaString $string, IMegaKeyAes128 $key)
+	protected function decryptAttributes(IMegaString $string, IMegaKeyAes128 $key)
 	{
 		$keysize = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
 		$iv = str_repeat("\0", $keysize);

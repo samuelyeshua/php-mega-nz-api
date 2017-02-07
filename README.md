@@ -34,13 +34,11 @@ your filesystem, please look at [the example script](download_to_folder.php).
 This library offers an API to see files, and download them, as follows :
 
 The constructor needs the full url to access mega. This means that the url
-fragment should contains the node id, and the key to decode the node.
-
+fragment should contains the node id, and the key to decode the node. 
 `Mega::__construct($full_url):Mega`
 
 Once a new `Mega` object is created, you may search for its root folder with
-the method :
-`Mega::getRootNodeInfo():MegaNode;`
+the method : `Mega::getRootNodeInfo():MegaNode;`
 
 Once you have a `MegaNode` object, you may search for its children with the
 method :
@@ -56,7 +54,7 @@ the `MegaNode::getNodeType():integer` method. If the value is `MegaNode::TYPE_FO
 then the node represents a folder, and if the value is `MegaNode::TYPE_FILE`,
 then it represents a downloadable file.
 
-Finally, to download files (folders are not downloadable for obvious reasons), 
+Then, to download files (folders are not downloadable for obvious reasons), 
 use the `Mega::downloadFile(MegaNode $node):string` method, that
 returns the raw string data of the downloaded file, unencrypted.
 
@@ -69,7 +67,7 @@ To check the size of a file (folders have no size given Mega's API), use the
 very well.
 
 Finally, almost every method of this library throws `PhpExtended\Mega\MegaException`
-dues to various factors, mainly because of cryptographic errors that may occur anywhere.
+dues to various factors, mainly because cryptographic errors that may occur anywhere.
 Remember to encapsulate calls to this library to `try { ... } catch(MegaException $e) { ... }`
 blocks.
 

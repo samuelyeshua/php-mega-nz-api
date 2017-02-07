@@ -164,9 +164,10 @@ class Mega
 	}
 	
 	/**
-	 * Gets file information from
+	 * Gets file information from hierarchy, if not found, searches the server.
 	 *
 	 * @param MegaNodeId $node_id the id of target node.
+	 * @return MegaNode the node with the given id, null if not found.
 	 */
 	public function getFileInfo(MegaNodeId $node_id)
 	{
@@ -183,6 +184,14 @@ class Mega
 		return $this->getFileInfoWithChildren($node_id);
 	}
 	
+	/**
+	 * Gets the file information from the server, and sets up the known
+	 * node hierarchy.
+	 *
+	 * @param MegaNodeId $node_id
+	 * @return MegaNode the node with the given id, null if not found.
+	 * @throws MegaException
+	 */
 	protected function getFileInfoWithChildren(MegaNodeId $node_id)
 	{
 		$args = array(
