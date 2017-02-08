@@ -56,12 +56,11 @@ class MegaNodeHierarchy
 	{
 		$alreadyin = $this->searchNode($node->getNodeId());
 		if($alreadyin !== null)
-			throw new MegaException(strtr('Impossible to add node with id "{id}", already inside the hierarchy.',
-				array('{id}' => $node->getNodeId())));
+			return;
 		
 		$pnode = $this->searchNode($node->getParentId());
 		if($pnode === null)
-			throw new MegaException(strtr('Impossible to find node with given id "{id}".',
+			throw new MegaException(strtr('Impossible to find parent node with given id "{id}".',
 				array('{id}' => $node->getParentId())));
 		
 		$hnode = new MegaNodeHierarchyNode($node);
