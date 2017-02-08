@@ -205,28 +205,15 @@ class Mega
 		if(!$this->_container_id->equals($node_id))
 			$args['n'] = $node_id->getValue();
 		
-		$payload = json_encode(array($args));
 		$url = 'https://'.$this->_server.'/cs?id='.($this->_seqno++);
 		if(!empty($this->_user_session_id))
 			$url .= '&sid='.$this->_user_session_id;
 		$url .= '&n='.$this->_container_id->getValue();
 		$url .= '&lang=en&domain=meganz';
 		
-		$json_response = $this->request($url, $payload);
-		if(is_numeric($json_response))
-			throw new MegaException(null, $json_response);
+		$response_json = $this->requestJson($url, $args);
 		
-		$response = json_decode($json_response, true);
-		if($response === false)
-			throw new MegaException('Impossible to decode the json response from the server.', MegaException::EINTERNAL);
-		
-		if(!isset($response[0]))
-			throw new MegaException('Impossible to decode the json data from the server.', MegaException::EINTERNAL);
-		
-		if(is_int($response[0]))
-			throw new MegaException(null, $response[0]);
-		
-		$response = new MegaResponseNodelist($response[0]);
+		$response = new MegaResponseNodelist($response_json);
 		
 		$rootFolder = $response->getRootNode();
 		
@@ -289,14 +276,41 @@ class Mega
 			'ssl' => 2,
 		);
 		
-		$payload = json_encode(array($args));
 		$url = 'https://'.$this->_server.'/cs?id='.($this->_seqno++);
 		if(!empty($this->_user_session_id))
 			$url .= '&sid='.$this->_user_session_id;
 		$url .= '&n='.$this->_container_id->__toString();
 		$url .= '&lang=en&domain=meganz';
 		
+		$response = $this->requestJson($url, $args);
+		
+		$encrypted_response = new MegaEncryptedFileLocation($response);
+		
+		// TODO change to be able to stream data instead
+		$encoded_data = $this->request($encrypted_response->g(), null);
+		
+		$file_decoder = new MegaResponseFileDecoder($node);
+		
+		$clear_data = $file_decoder->decode($encoded_data);
+		
+		return $clear_data;
+	}
+	
+	/**
+	 *
+	 * @param string $url
+	 * @param array $json_data
+	 * @return array $json_response
+	 * @throws MegaException if the response is not expected
+	 */
+	protected function requestJson($url, array $json_data)
+	{
+		$payload = json_encode(array($json_data));
+		
 		$json_response = $this->request($url, $payload);
+		
+		if(is_numeric($json_response))
+			throw new MegaException(null, $json_response);
 		
 		$response = json_decode($json_response, true);
 		if($response === false)
@@ -311,16 +325,10 @@ class Mega
 		if(isset($response['e']))
 			throw new MegaException(null, $response['e']);
 		
-		$encrypted_response = new MegaEncryptedFileLocation($response[0]);
+		if(isset($response[0]['e']))
+			throw new MegaException(null, $response[0]['e']);
 		
-		// TODO change to be able to stream data instead
-		$encoded_data = $this->request($encrypted_response->g(), null);
-		
-		$file_decoder = new MegaResponseFileDecoder($node);
-		
-		$clear_data = $file_decoder->decode($encoded_data);
-		
-		return $clear_data;
+		return $response[0];
 	}
 	
 	/**

@@ -68,7 +68,7 @@ very well.
 
 Finally, almost every method of this library throws `PhpExtended\Mega\MegaException`
 dues to various factors, mainly because cryptographic errors that may occur anywhere.
-Remember to encapsulate calls to this library to `try { ... } catch(MegaException $e) { ... }`
+Remember to encapsulate calls to this library with `try { ... } catch(MegaException $e) { ... }`
 blocks.
 
 ## License
