@@ -105,7 +105,8 @@ class MegaNodeHierarchy
 	 * Gets the children of the node defined by given node id.
 	 *
 	 * @param MegaNodeId $node_id
-	 * @return MegaNode[] or empty array if none is found
+	 * @return MegaNode[] or empty array if there is no children
+	 * @throws MegaException if the node cannot be found
 	 */
 	public function getChildren(MegaNodeId $node_id)
 	{
@@ -127,9 +128,10 @@ class MegaNodeHierarchy
 	 */
 	protected function searchNode(MegaNodeId $node_id)
 	{
-		// search the cache of known nodes first
 		if(isset($this->_known_nodes[$node_id->getValue()]))
 			return $this->_known_nodes[$node_id->getValue()];
+		
+		// no need of recursive searching, we know it's not there
 		return null;
 	}
 	
