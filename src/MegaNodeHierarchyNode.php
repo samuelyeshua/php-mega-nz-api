@@ -71,23 +71,17 @@ class MegaNodeHierarchyNode
 	 * Adds a child node to the collection of this one.
 	 *
 	 * @param MegaNodeHierarchyNode $child
+	 * @throws MegaException
 	 */
 	public function addChild(MegaNodeHierarchyNode $child)
 	{
-		$already_in = false;
-		foreach($this->_children as $test)
-		{
-			if($test->getNode()->getNodeId()->equals($child->getNode()->getNodeId()))
-			{
-				$already_in = true;
-				break;
-			}
-		}
-		if(!$already_in)
-		{
-			$this->_children[] = $child;
-			$child->setParent($this);
-		}
+		// checks if already in, if it is, do not add it once more
+		// check using isset in O(1)
+		if(isset($this->_children[$child->getNode()->getNodeId()->__toString()]))
+			return;
+		
+		$this->_children[$child->getNode()->getNodeId()->__toString()] = $child;
+		$child->setParent($this);
 	}
 	
 	/**
