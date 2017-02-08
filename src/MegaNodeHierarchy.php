@@ -20,6 +20,13 @@ class MegaNodeHierarchy
 	private $_root = null;
 	
 	/**
+	 * A hashmap of all known nodes to have insert and searching in O(1)
+	 *
+	 * @var [string => MegaNodeHierarchyNode]
+	 */
+	private $_known_nodes = array();
+	
+	/**
 	 * Builds a new MegaNodeHierarchy with the given root node.
 	 *
 	 * @param MegaNode $root_node
@@ -59,6 +66,7 @@ class MegaNodeHierarchy
 		
 		$hnode = new MegaNodeHierarchyNode($node);
 		$hnode->setParent($pnode);
+		$this->_known_nodes[$node->getNodeId()->__toString()] = $hnode;
 	}
 	
 	/**
@@ -119,6 +127,10 @@ class MegaNodeHierarchy
 	 */
 	protected function searchNode(MegaNodeId $node_id)
 	{
+		// search the cache of known nodes first
+		if(isset($this->_known_nodes[$node_id->getValue()]))
+			return $this->_known_nodes[$node_id->getValue()];
+		
 		return $this->searchNodeRecursive($node_id, $this->_root);
 	}
 	
