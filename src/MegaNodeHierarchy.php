@@ -34,6 +34,7 @@ class MegaNodeHierarchy
 	public function __construct(MegaNode $root_node)
 	{
 		$this->_root = new MegaNodeHierarchyNode($root_node);
+		$this->_known_nodes[$root_node->getNodeId()->__toString()] = $this->_root;
 	}
 	
 	/**
