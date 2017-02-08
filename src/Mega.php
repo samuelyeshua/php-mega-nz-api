@@ -198,7 +198,7 @@ class Mega
 			'a' => 'f',	// folder?
 			'c' => 1,	// ???
 			'r' => 1,	// recursive
-			'ca' => 0,
+			'ca' => 1,	// ???
 		);
 		
 		// dont need the node id the first time we want the root folder
@@ -340,6 +340,7 @@ class Mega
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+		curl_setopt($ch, CURLOPT_ENCODING, "gzip");
 		
 		$cacert_path = CacertBundle::getFilePath();
 		curl_setopt($ch, CURLOPT_CAINFO, $cacert_path);
