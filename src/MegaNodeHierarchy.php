@@ -130,28 +130,6 @@ class MegaNodeHierarchy
 		// search the cache of known nodes first
 		if(isset($this->_known_nodes[$node_id->getValue()]))
 			return $this->_known_nodes[$node_id->getValue()];
-		
-		return $this->searchNodeRecursive($node_id, $this->_root);
-	}
-	
-	/**
-	 * Gets the node hierarchy node which contains the node with the given id,
-	 * if not found, search the given node hierarchy children.
-	 *
-	 * @param MegaNodeId $node_id
-	 * @param MegaNodeHierarchyNode $hierarchy
-	 * @return MegaNodeHierarchyNode, null if not found
-	 */
-	protected function searchNodeRecursive(MegaNodeId $node_id, MegaNodeHierarchyNode $hierarchy)
-	{
-		if($hierarchy->getNode()->getNodeId()->equals($node_id))
-			return $hierarchy;
-		foreach($hierarchy->getChildren() as $child)
-		{
-			$rchild = $this->searchNodeRecursive($node_id, $child);
-			if($rchild !== null)
-				return $rchild;
-		}
 		return null;
 	}
 	
