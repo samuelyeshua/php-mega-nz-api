@@ -25,6 +25,8 @@ class MegaEncryptedFileLocation
 	
 	private $_fa = null;
 	
+	private $_e = null;
+	
 	/**
 	 * Builds a new Mega Encrypted File Location object.
 	 *
@@ -54,6 +56,9 @@ class MegaEncryptedFileLocation
 					break;
 				case 'fa':
 					$this->_fa = $value;
+					break;
+				case 'e':
+					$this->_e = $value;
 					break;
 				default:
 					throw new MegaException(strtr('Unknown attribute property "{key}" with value "{val}".',
@@ -92,5 +97,9 @@ class MegaEncryptedFileLocation
 		return $this->_fa;
 	}
 	
+	public function e()
+	{
+		return $this->_e;
+	}
 	
 }
