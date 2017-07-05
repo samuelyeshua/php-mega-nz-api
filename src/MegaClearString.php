@@ -26,6 +26,11 @@ class MegaClearString implements IMegaString
 	 */
 	public function __construct($string)
 	{
+		if(empty($string))
+			throw new MegaException(strtr('The given value is empty.'));
+		if(!is_string($string))
+			throw new MegaException(strtr('The given value is not a string, but a {thing}',
+				array('{thing}' => gettype($string))), MegaException::EARGS);
 		$this->_value = $string;
 	}
 	
